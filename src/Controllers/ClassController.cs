@@ -8,36 +8,36 @@ using studentManagement.src.Mappers;
 
 namespace studentManagement.src.Controllers
 {
-    [Route("api/student")]
+    [Route("api/class")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class ClassController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public StudentController(ApplicationDbContext context)
+        public ClassController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public IActionResult GetAllStudents()
+        public IActionResult GetAllClasses()
         {
-            var students = _context.Students.ToList()
-                .Select(s => s.ToStudentDto());
-            
-            return Ok(students);
+            var classes = _context.Classes.ToList()
+                .Select(s => s.ToClassDto());
+
+            return Ok(classes);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetStudentById([FromRoute] int id)
+        public IActionResult GetClassById([FromRoute] int id)
         {
-            var students = _context.Students.Find(id);
+            var classes = _context.Classes.Find(id);
 
-            if (students == null)
+            if (classes == null)
             {
                 return NotFound();
             }
 
-            return Ok(students.ToStudentDto());
+            return Ok(classes.ToClassDto());
         }
     }
 }
