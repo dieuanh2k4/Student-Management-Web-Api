@@ -7,7 +7,7 @@ namespace studentManagement.src.Dtos.Student
 {
     public class StudentDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public required string Name { get; set; }
         public string StudentCode { get; set; } = string.Empty;
         public DateOnly DateOfBirth { get; set; }

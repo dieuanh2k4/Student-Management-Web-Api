@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using studentManagement.src.Data;
+using studentManagement.src.Dtos.Student;
 using studentManagement.src.Mappers;
 
 namespace studentManagement.src.Controllers
@@ -21,16 +22,16 @@ namespace studentManagement.src.Controllers
         [HttpGet]
         public IActionResult GetAllStudents()
         {
-            var students = _context.Students.ToList()
+            var students = _context.Student.ToList()
                 .Select(s => s.ToStudentDto());
-            
+
             return Ok(students);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetStudentById([FromRoute] int id)
         {
-            var students = _context.Students.Find(id);
+            var students = _context.Student.Find(id);
 
             if (students == null)
             {
@@ -38,6 +39,17 @@ namespace studentManagement.src.Controllers
             }
 
             return Ok(students.ToStudentDto());
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateStudentDto studentDto)
+        {
+            var studentModel = studentDto.ToStudentFromCreateDto();
+            _context.Student.Add(studentModel);
+            _context.SaveChanges();
+
+            // return CreatedAtAction(nameof(GetStudentById), new { id = studentModel.Id }, studentModel.ToStudentDto());
+            return Ok();
         }
     }
 }

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace studentManagement.src.Models
+namespace studentManagement.src.Dtos.Class
 {
-    public class Class
+    public class CreateClassDto
     {
-        // gõ prop
-        public int Id { get; set; }
         public required string Name { get; set; }
         public string ClassCode { get; set; } = string.Empty;
         public int MaxOfStudents { get; set; }

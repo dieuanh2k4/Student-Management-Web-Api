@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using studentManagement.src.Data;
+using studentManagement.src.Dtos.Class;
 using studentManagement.src.Mappers;
 
 namespace studentManagement.src.Controllers
@@ -21,7 +22,7 @@ namespace studentManagement.src.Controllers
         [HttpGet]
         public IActionResult GetAllClasses()
         {
-            var classes = _context.Classes.ToList()
+            var classes = _context.Class.ToList()
                 .Select(s => s.ToClassDto());
 
             return Ok(classes);
@@ -30,7 +31,7 @@ namespace studentManagement.src.Controllers
         [HttpGet("{id}")]
         public IActionResult GetClassById([FromRoute] int id)
         {
-            var classes = _context.Classes.Find(id);
+            var classes = _context.Class.Find(id);
 
             if (classes == null)
             {
@@ -38,6 +39,16 @@ namespace studentManagement.src.Controllers
             }
 
             return Ok(classes.ToClassDto());
+        }
+
+        [HttpPost]
+        public IActionResult CreateClass([FromBody] CreateClassDto classdto)
+        {
+            var classModel = classdto.ToCreateClassDto();
+            _context.Class.Add(classModel);
+            _context.SaveChanges();
+            
+            return Ok();
         }
     }
 }

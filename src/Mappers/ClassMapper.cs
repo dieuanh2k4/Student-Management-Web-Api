@@ -13,10 +13,19 @@ namespace studentManagement.src.Mappers
         {
             return new ClassDto
             {
-                Id = classModel.Id,
                 Name = classModel.Name,
                 ClassCode = classModel.ClassCode,
                 MaxOfStudents = classModel.MaxOfStudents
+            };
+        }
+
+        public static Class ToCreateClassDto(this CreateClassDto createClass)
+        {
+            return new Class
+            {
+                Name = createClass.Name,
+                ClassCode = createClass.ClassCode,
+                MaxOfStudents = createClass.MaxOfStudents
             };
         }
     }

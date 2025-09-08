@@ -13,10 +13,18 @@ namespace studentManagement.src.Mappers
         {
             return new StudentDto
             {
-                Id = studentModel.Id,
                 Name = studentModel.Name,
                 StudentCode = studentModel.StudentCode,
                 DateOfBirth = studentModel.DateOfBirth
+            };
+        }
+
+        public static Student ToStudentFromCreateDto(this CreateStudentDto studentdto) {
+            return new Student
+            {
+                Name = studentdto.Name,
+                StudentCode = studentdto.StudentCode,
+                DateOfBirth = studentdto.DateOfBirth
             };
         }
     }
