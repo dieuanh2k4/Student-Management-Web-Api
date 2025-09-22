@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update.Internal;
 using studentManagement.src.Data;
 using studentManagement.src.Dtos.Student;
+using studentManagement.src.Interfaces;
 using studentManagement.src.Mappers;
 
 namespace studentManagement.src.Controllers
@@ -16,15 +17,17 @@ namespace studentManagement.src.Controllers
     public class StudentController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public StudentController(ApplicationDbContext context)
+        private readonly IStudentrepository _studentrepository;
+        public StudentController(ApplicationDbContext context, IStudentrepository studentrepository)
         {
+            _studentrepository = studentrepository;
             _context = context;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllStudents()
         {
-            var students = await _context.Student.ToListAsync();
+            var students = await _studentrepository.GetAllAsync();
 
             var studentdto = students.Select(s => s.ToStudentDto());
 
