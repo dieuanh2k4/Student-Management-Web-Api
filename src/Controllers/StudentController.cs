@@ -72,5 +72,23 @@ namespace studentManagement.src.Controllers
 
             return Ok(studentModel.ToStudentDto());
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var studentModel = _context.Student.FirstOrDefault(x => x.Id == id);
+
+            if (studentModel == null)
+            {
+                return NotFound();
+            }
+
+            _context.Student.Remove(studentModel);
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
