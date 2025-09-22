@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using studentManagement.src.Data;
 using studentManagement.src.Dtos.Student;
 using studentManagement.src.Mappers;
@@ -50,6 +51,26 @@ namespace studentManagement.src.Controllers
 
             // return CreatedAtAction(nameof(GetStudentById), new { id = studentModel.Id }, studentModel.ToStudentDto());
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateStudentRequestDto updateDto)
+        {
+            var studentModel = _context.Student.FirstOrDefault(x => x.Id == id);
+
+            if (studentModel == null)
+            {
+                return NotFound();
+            }
+
+            studentModel.Name = updateDto.Name;
+            studentModel.DateOfBirth = updateDto.DateOfBirth;
+            studentModel.StudentCode = updateDto.StudentCode;
+
+            _context.SaveChanges();
+
+            return Ok(studentModel.ToStudentDto());
         }
     }
 }
