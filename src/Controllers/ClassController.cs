@@ -47,8 +47,45 @@ namespace studentManagement.src.Controllers
             var classModel = classdto.ToCreateClassDto();
             _context.Class.Add(classModel);
             _context.SaveChanges();
-            
+
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateClassDto updatedto)
+        {
+            var classModel = _context.Class.FirstOrDefault(x => x.Id == id);
+
+            if (classModel == null)
+            {
+                return NotFound();
+            }
+
+            classModel.Name = updatedto.Name;
+            classModel.ClassCode = updatedto.ClassCode;
+            classModel.MaxOfStudents = updatedto.MaxOfStudents;
+
+            _context.SaveChanges();
+
+            return Ok(classModel.ToClassDto());
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var classModel = _context.Class.FirstOrDefault(x => x.Id == id);
+
+            if (classModel == null)
+            {
+                return NotFound();
+            }
+
+            _context.Class.Remove(classModel);
+            _context.SaveChanges();
+
+            return NoContent();
         }
     }
 }
